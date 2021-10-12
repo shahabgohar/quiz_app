@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quiz_app/enums/difficulty.enum.dart';
 import 'package:quiz_app/models/question.model.dart';
 import 'package:quiz_app/repositories/quiz/quiz.repository.dart';
+import 'package:quiz_app/views/widgets/build_questions.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,8 +26,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             difficulty: Difficulty.any),
         builder:
             (BuildContext context, AsyncSnapshot<List<Question>> snapshot) {
-          if (snapshot.hasData) {
-            return _buildQuestions(context);
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            return BuildQuestions(questions: snapshot.data!);
           } else if (snapshot.hasError) {
             return Text('Error ${snapshot.error}');
           } else {
@@ -37,33 +38,6 @@ class _HomePageState extends ConsumerState<HomePage> {
             );
           }
         },
-      ),
-    );
-  }
-
-  Widget _buildQuestions(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _buildQuestion(context, 'question question'),
-        _buildOptions(context, ['hello', 'hello'])
-      ],
-    );
-  }
-
-  Widget _buildQuestion(BuildContext context, String question) {
-    return Text(
-      question,
-      style: Theme.of(context).textTheme.headline2,
-    );
-  }
-
-  Widget _buildOptions(BuildContext context, List<String> answers) {
-    return Expanded(
-      child: ListView(
-        children: [
-          ...answers.map((answer) => ListTile(title: Text(answer))).toList()
-        ],
       ),
     );
   }

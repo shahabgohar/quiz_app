@@ -5,7 +5,8 @@ import 'package:quiz_app/models/question.model.dart';
 import 'package:quiz_app/enums/difficulty.enum.dart';
 import 'package:quiz_app/repositories/quiz/base.repository.dart';
 
-final dioProvider = Provider<Dio>((_) => Dio());
+final dioProvider =
+    Provider<Dio>((_) => Dio(BaseOptions(baseUrl: 'https://opentdb.com/')));
 final quizRepositoryProvider =
     Provider<QuizRepository>((ref) => QuizRepository(ref.read));
 
@@ -31,19 +32,16 @@ class QuizRepository extends BaseRepository {
     }
     try {
       final response = await _read(dioProvider)
-          .get('https://opentdb.com/api.php', queryParameters: queryParameters);
-      if (response.statusCode == 200) {
-        List<dynamic> results = response.data['results'];
-        List<Question> questionsList = [];
-        results.forEach((element) {
-          final Question question = Question.fromJson(element);
-          questionsList.add(question);
-        });
-        return questionsList;
+          .get('/api.php', queryParameters: queryParameters);
+      print(response.realUri);
+      List<dynamic> results = response.data['results'];
+      if (response.statusCode == 200 && results.isNotEmpty) {
+        return results.map((e) => Question.fromJson(e)).toList();
       }
       return [];
     } on DioError catch (err) {
       throw err;
+      print(err);
     }
   }
 }
