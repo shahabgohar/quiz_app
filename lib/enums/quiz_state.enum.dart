@@ -1,0 +1,1 @@
+enum QuizState { complete, incomplete }
