@@ -26,7 +26,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             difficulty: Difficulty.any),
         builder:
             (BuildContext context, AsyncSnapshot<List<Question>> snapshot) {
-          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          if (snapshot.hasData) {
             return BuildQuestions(questions: snapshot.data!);
           } else if (snapshot.hasError) {
             return Text('Error ${snapshot.error}');

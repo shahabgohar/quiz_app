@@ -23,7 +23,7 @@ class BuildQuestions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          question.question ?? 'sorry not found',
+          question.question,
           style: Theme.of(context).textTheme.headline2,
         ),
         _buildOptions(context, question.answers)

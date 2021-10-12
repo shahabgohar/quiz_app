@@ -11,7 +11,7 @@ class Question {
   late final String category;
   late final String type;
   late final String difficulty;
-  late final String? question = 'fdsfs';
+  late final String question;
   late final String correctAnswer;
   late final List<String> answers;
 
@@ -32,7 +32,7 @@ class Question {
         answers: answers,
       );
 
-  factory Question.fromJson(Map<String, dynamic> json) {
+  static Question fromJson(Map<String, dynamic> json) {
     return Question(
       category: json["category"],
       type: json["type"],

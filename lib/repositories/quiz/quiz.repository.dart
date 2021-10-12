@@ -33,7 +33,6 @@ class QuizRepository extends BaseRepository {
     try {
       final response = await _read(dioProvider)
           .get('/api.php', queryParameters: queryParameters);
-      print(response.realUri);
       List<dynamic> results = response.data['results'];
       if (response.statusCode == 200 && results.isNotEmpty) {
         return results.map((e) => Question.fromJson(e)).toList();
