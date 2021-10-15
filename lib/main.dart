@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quiz_app/views/home.view.dart';
+import 'package:quiz_app/views/quiz_setup.view.dart';
+import 'package:quiz_app/views/score.view.dart';
+
+import 'Log/logger.dart';
 
 void main() {
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(observers: [Logger()], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,6 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        QuizSetup.route: (context) => QuizSetup(),
+        HomePage.route: (context) => HomePage(),
+        Score.route: (context) => Score()
+      },
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       title: 'Flutter Demo',
@@ -21,8 +30,8 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: const TextTheme(
               headline2: TextStyle(
-                  color: Colors.black, fontSize: 50.0, wordSpacing: 10.0))),
-      home: const HomePage(),
+                  color: Colors.black, fontSize: 30.0, wordSpacing: 10.0))),
+      home: QuizSetup(),
     );
   }
 }

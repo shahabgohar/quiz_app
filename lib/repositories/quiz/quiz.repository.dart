@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,7 +42,8 @@ class QuizRepository extends BaseRepository {
       return [];
     } on DioError catch (err) {
       throw err;
-      print(err);
+    } on SocketException catch (socket) {
+      return [];
     }
   }
 }

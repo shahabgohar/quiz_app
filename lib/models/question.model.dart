@@ -1,11 +1,14 @@
-class Question {
+import 'package:equatable/equatable.dart';
+import 'package:html_character_entities/html_character_entities.dart';
+
+class Question extends Equatable {
   Question({
-    required category,
-    required type,
-    required difficulty,
-    required question,
-    required correctAnswer,
-    required answers,
+    required this.category,
+    required this.type,
+    required this.difficulty,
+    required this.question,
+    required this.correctAnswer,
+    required this.answers,
   });
 
   late final String category;
@@ -34,11 +37,11 @@ class Question {
 
   static Question fromJson(Map<String, dynamic> json) {
     return Question(
-      category: json["category"],
-      type: json["type"],
-      difficulty: json["difficulty"],
-      question: json["question"],
-      correctAnswer: json["correct_answer"],
+      category: HtmlCharacterEntities.decode(json["category"]),
+      type: HtmlCharacterEntities.decode(json["type"]),
+      difficulty: HtmlCharacterEntities.decode(json["difficulty"]),
+      question: HtmlCharacterEntities.decode(json["question"]),
+      correctAnswer: HtmlCharacterEntities.decode(json["correct_answer"]),
       answers: List<String>.from(json["incorrect_answers"])
         ..add(json["correct_answer"])
         ..shuffle(),
@@ -53,4 +56,8 @@ class Question {
         "correct_answer": correctAnswer,
         "incorrect_answers": List<dynamic>.from(answers.map((x) => x)),
       };
+
+  @override
+  List<Object?> get props =>
+      [category, type, difficulty, question, correctAnswer, answers];
 }
